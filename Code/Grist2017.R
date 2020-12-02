@@ -1,23 +1,22 @@
-#===================================================
 # Variance Partitioning for Grist et al 2017, Rec 97
 # Elene Haave Audet, Mar 23, 2020
 # Day 12 pandemic
-#===================================================
 
-# 1) set working directory to data location
-setwd("G:/Shared drives/Personality & Fitness Meta-Analysis/R_Pers&FitExtractions/Data")
-
-# 2) Load libraries
+# Load libraries====
 library(tidyverse)
 library(lme4)
 library(MuMIn)
 library(MCMCglmm)
 library(rptR)
+library(here)
 
-# 3) Load data
-data<-read.csv("Grist2017.csv")
+# Set wd====
+dir<-here()
 
-# 4) Visualize data
+# Load data====
+data<-read.csv("Data/Grist2017.csv")
+
+# Visualize data====
 hist(data$Breed_Success) #count data that's not typical poisson
   #Sex: Male=1 Female=0
   #migration: Migratory=1 Resident =0
@@ -35,10 +34,10 @@ summary.f=data.f %>%
 summary.m=data.m %>% 
   summarize(n_distinct(Bird_ID)) #224 Ind, 353 Obs
 
-# 5) Load priors
+# Load priors====
 prior.miw<-list(R=list(V=diag(2), nu=2.002), G=list(G1=list(V=diag(2), nu=2.002, alpha.mu=c(0,0), alpha.V=diag(2)*1000)))
 
-# 6) Run MCMC glmm
+# Run MCMC glmm====
 m.f<-MCMCglmm(cbind(Migratory_Strategy, Breed_Success) ~ (trait-1), random = ~us(trait):Bird_ID ,rcov = ~us(trait):units, family = c("categorical", "gaussian"), data=data.f, prior =prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m.f)
 
@@ -62,7 +61,7 @@ c4 <- posterior.cor(m.m$VCV[,5:8]) #within=-0.48
 round(apply(c4,2,mean),2)
 round(apply(c4,2, quantile, c(0.025, 0.975)),2)
 
-# 7) Estimate repeatability
+# Estimate repeatability====
 #females
 rpt(Migratory_Strategy~(1|Bird_ID), grname = "Bird_ID", datatype = c("Binary"), data=data.f)
 #r=0.518
@@ -71,7 +70,7 @@ rpt(Migratory_Strategy~(1|Bird_ID), grname = "Bird_ID", datatype = c("Binary"), 
 rpt(Migratory_Strategy~(1|Bird_ID), grname = "Bird_ID", datatype = c("Binary"), data=data.m)
 #r= 0.275
 
-# 8) Estimate Pheno correlation
+# Estimate Pheno correlation====
 #females
 cor.test(data.f$Migratory_Strategy,data.f$Breed_Success)
 #r=-0.1282292
