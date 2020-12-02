@@ -1,35 +1,34 @@
-#=================================================
 # Variance partitioning for Winney 2018, Rec 280
 # March 25, 2020 (I'm so bored of being at home)
-#=================================================
 
-# 1) set working directory to data location
-setwd("G:/Shared drives/Personality & Fitness Meta-Analysis/R_Pers&FitExtractions/Data")
-
-# 2) Load libraries
+# Load libraries====
 library(tidyverse)
 library(lme4)
 library(MuMIn)
 library(MCMCglmm)
 library(rptR)
 library(GeneNet)
+library(here)
 
-# 3) Load data
-exp<-read.csv("Winney2018_Exploration.csv")
-bold<-read.csv("Winney2018_Boldness.csv")
-#ped<-read.table("Winney2018_Pedigree.txt", header=TRUE)
-#won't need to use predigree; use n offspring in box at time of assay as fitness proxy
+# Set wd
+dir<-here()
 
-# 4) Load priors
+# Load data
+exp<-read.csv("Data/Winney2018_Exploration.csv")
+bold<-read.csv("Data/Winney2018_Boldness.csv")
+# ped<-read.table("Winney2018_Pedigree.txt", header=TRUE)
+# won't need to use predigree; use n offspring in box at time of assay as fitness proxy
+
+# Load priors====
 prior.miw<-list(R=list(V=diag(2), nu=2.002), G=list(G1=list(V=diag(2), nu=2.002, alpha.mu=c(0,0), alpha.V=diag(2)*1000)))
 
-# 5) model effect of neophilia (ne boldness) on n offspring
+# model effect of neophilia (ne boldness) on n offspring====
 #study used latency from touch box to entering box 
 #split males and females
 bold.f<-subset(bold, sex=="F")
 bold.m<-subset(bold, sex=="M")
 
-#visualize data
+# visualize data====
 ##females
 hist(bold.f$offspring) #poisson
 hist(bold.f$logentrylatency) #normal; data normalized and * by -1, so that >values = >bold
@@ -70,11 +69,11 @@ c4 <- posterior.cor(m.bold.m$VCV[,5:8]) #within=0.02
 round(apply(c4,2,mean),2)
 round(apply(c4,2, quantile, c(0.025, 0.975)),2)
 
-# 6) model effect of exploration on fitness
-#use logfr.notdoubled
-#tests conducted after breeding season; could link EB with fitness of next year's brood
+# model effect of exploration on fitness====
+# use logfr.notdoubled
+# tests conducted after breeding season; could link EB with fitness of next year's brood
 
-#pull fitness data from boldness assay
+# pull fitness data from boldness assay
 exp.fit<-select(exp, asrid, winter, sex, logfr.notdoubled)
 exp.fit<-rename(exp.fit, year=winter)
 exp.fit$year<-exp.fit$year+1 #add 1 to year so that matches brood size of that season
@@ -91,7 +90,7 @@ exp.fit<-full_join(exp.fit, bold.fit, by=c("asrid", "year"))
 exp.fit<-subset(exp.fit, logfr.notdoubled!="NA") #remove NAs
 exp.fit<-subset(exp.fit, meanoffspring!="NA")
 
-#split males and females
+# split males and females
 exp.f<-subset(exp.fit, sex=="F")
 
 n_ind_f<-exp.f %>% 
@@ -102,7 +101,7 @@ exp.m<-subset(exp.fit, sex=="M")
 n_ind_m<-exp.m %>% 
   summarise(n_distinct(asrid)) #n ind=41, obs=68
 
-#MCMCglmm
+# MCMCglmm
 m.exp.f<-MCMCglmm(cbind(logfr.notdoubled, meanoffspring) ~ (trait-1), random = ~us(trait):asrid ,rcov = ~us(trait):units, family = c("gaussian", "gaussian"), data=exp.f, prior =prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m.exp.f)
 rpt(logfr.notdoubled~(1|asrid), grname = "asrid", data=exp.f) #r=0.408
