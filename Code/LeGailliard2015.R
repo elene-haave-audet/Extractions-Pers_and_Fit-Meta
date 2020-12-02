@@ -10,12 +10,6 @@ dir<-here()
 LGSurv<-read.csv("Data/LG2015Behav.csv")
 LGRep<-read.csv("Data/LG2015Repro.csv")
 
-LGAct<-read.csv("Data/ActivityNewborns.csv")
-LGBold<-read.csv("Data/BoldnessNewborns.csv")
-LGSoc<-read.csv("Data/SociabilityNewborns.csv")
-LGRecap<-read.csv("Data/Recaptures.csv")
-LGRepro<-read.csv("Data/Reproduction.csv")
-
 LGsurvF<-subset(LGSurv, Sex=="F")
 LGsurvM<-subset(LGSurv, Sex=="M")
 
