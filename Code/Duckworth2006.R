@@ -1,11 +1,15 @@
-#===================
-#Duckworth 2006
-#==================
+# Duckworth 2006
 
-setwd("G:/Shared drives/Personality & Fitness Meta-Analysis/R_Pers&FitExtractions/Data")
+# Set-up----
+# Load libraries====
+library(here)
 
-data<-read.csv("Duckworth2006.csv")
+# Set wd====
+dir<-here()
 
+data<-read.csv("Data/Duckworth2006.csv")
+
+# Extract estimate----
 m1<-glm(Repro~Agg, family="poisson", data=data)
 
 cor.test(data$Agg, data$Repro)
