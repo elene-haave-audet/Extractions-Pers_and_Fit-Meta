@@ -1,22 +1,23 @@
-#=======================================================
 # Phenotypic extractions for Kralj-Fiser 2017, Rec 326
-# ======================================================
 
-# 1) set working directory to data location
-setwd("G:/Shared drives/Personality & Fitness Meta-Analysis/R_Pers&FitExtractions/Data")
-
-# 2) Load libraries
+# Load libraris====
 library(tidyverse)
 library(lme4)
 library(MuMIn)
 library(MCMCglmm)
 library(rptR)
 library(GeneNet)
+library(here)
 
-# 2) Load data, female=1, male=2
-data<-read.csv("KF2017.csv")
+# Set wd
+dir<-here()
 
-# 3)Pull second observation for each individual into separate dataframe
+# Load data====
+# female=1, male=2
+data<-read.csv("Data/KF2017.csv")
+
+# Clean data====
+# Pull second observation for each individual into separate dataframe
 data.r1<-select(data, ID, sex,Novel_env_time._to.stop1,Novel_env_time._again1,boldness1,agg1,prey_reaction1,prey_attack1,voracity1,n_viable_eggsacs,lab_longevity)
 data.r1$trial <- rep(1,nrow(data.r1)) # add a column for trial number
 data.r1<-dplyr::rename(data.r1, NE_start = Novel_env_time._to.stop1,NE_Resume=Novel_env_time._again1, Bold=boldness1, Agg=agg1,prey_reaction=prey_reaction1,prey_attack=prey_attack1,voracity=voracity1)
@@ -29,6 +30,7 @@ data.full<-bind_rows(data.r1,data.r2) #combine data from both trials to run mixe
 data.f<-subset(data.full, sex==1) #create separate data frames for males and females
 data.m<-subset(data.full, sex==2)
 
+# Visualize data====
 hist(data.f$n_viable_eggsacs) #poisson
 data.f$eggs_t<-(data.f$n_viable_eggsacs)^2
 hist(data.f$eggs_t)#more poisson
@@ -36,7 +38,8 @@ hist(data.f$lab_longevity) #assume normal?
 hist(data.f$NE_start)
 data.f$NE_start_t<-log((data.f$NE_start)+0.5)
 
-# 4) models 1, 11-13 female repro
+# Model=====
+# models 1, 11-13 female repro
 m1<-glmer(n_viable_eggsacs~(NE_start)+(1|ID), data=data.f, family="poisson")
 ##can't get model to converge!
 
