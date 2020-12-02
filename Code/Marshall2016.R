@@ -1,13 +1,17 @@
-setwd("G:/Shared drives/Personality & Fitness Meta-Analysis/R_Pers&FitExtractions/Data")
+# Marshall et al 2016, Rec 323
 
-# 2) Load libraries
+# Load libraries====
 library(tidyverse)
 library(lme4)
 library(MuMIn)
 library(MCMCglmm)
 library(rptR)
+library(here)
 
-#load priors for MCMCglmm
+# Set wd====
+dir<-here()
+
+# Load priors====
 
 prior.miw<-list(R=list(V=diag(2), nu=2.002), G=list(G1=list(V=diag(2), nu=2.002, alpha.mu=c(0,0), alpha.V=diag(2)*1000)))
 
@@ -28,12 +32,12 @@ prior1 <-list(R = list(V = diag(c(1,1),2,2), nu = 3, fix = 2),
 prior4 <- list(R = list(V=diag(2), nu=3,fix=2),
                G=list(G1 =list(V = diag(2), nu=3, alpha.mu = c(0,0), alpha.V=diag(c(25^2,1000)))))
 
-#load data
-MarshMSurv<-read.csv("Marsh_Male_Surv.csv")
-MarshFSurv<-read.csv("Marsh_Fem_Surv.csv")
-MarshFBS<-read.csv("Marsh_Female_BS.csv")
-MarshMBS<-read.csv("Marsh_Male_BS.csv")
-MarshMMG<-read.csv("Marsh_Male_MG.csv")
+# Load data====
+MarshMSurv<-read.csv("Data/Marsh_Male_Surv.csv")
+MarshFSurv<-read.csv("Data/Marsh_Fem_Surv.csv")
+MarshFBS<-read.csv("Data/Marsh_Female_BS.csv")
+MarshMBS<-read.csv("Data/Marsh_Male_BS.csv")
+MarshMMG<-read.csv("Data/Marsh_Male_MG.csv")
 
 #keep last observation for each individual to get survival
 count(MarshMSurv, indiv) #75 individuals
