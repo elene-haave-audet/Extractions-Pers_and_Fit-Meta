@@ -27,13 +27,13 @@ dead.time=dead %>%
 #keep the last observation from each individual to get survival df
 
 count(Kain, individual)#60 individuals
-table(survival$survival) #51 dead, 9 live
 
 survival=Kain %>% 
   select(individual, survival, time) %>% 
   group_by(individual) %>% 
   slice(c(n())) %>% 
   ungroup() #end w/ 60 observations
+table(survival$survival) #51 dead, 9 live
 
 #all individuals have time 2820 at end of experiment; remove dead animals and replace with time of death
 live<-subset(survival, survival==1)
