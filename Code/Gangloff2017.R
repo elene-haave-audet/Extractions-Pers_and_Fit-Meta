@@ -33,4 +33,9 @@ data.clean<-data %>%
 data.clean<-full_join(data.clean, NOffspring, by="MomID")
 
 # Extract estimates====
+hist(data.clean$NSurv)
+hist(data.clean$AvgFlicks)
 m1<-glm(NSurv~AvgFlicks, data=data.clean, family="poisson")
+
+cor.test(data.clean$AvgFlicks, data.clean$NSurv) #0.06624
+cor.test(data.clean$AvgEscLatency, data.clean$NSurv) #0.342778
