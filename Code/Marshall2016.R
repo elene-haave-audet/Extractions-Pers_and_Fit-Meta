@@ -69,9 +69,10 @@ hist(femaleBS$bs.sess) #almost normal
 # partition variance for male babysitting sessions
 m1<-MCMCglmm(cbind(bs.sess, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("gaussian", "categorical"), data=maleBS, prior = prior4, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m1)
+plot(resid(m1))
 
 ###posterior correlation matrix - 1 through 4 is among individual, 5-8 is within-individual
-c1 <- posterior.cor(m1$VCV[,1:4]) #-0.05
+c1 <- posterior.cor(m1$VCV[,1:4]) #-0.29
 round(apply(c1,2,mean),2)
 round(apply(c1,2, quantile, c(0.025, 0.975)),2)
 c2 <- posterior.cor(m1$VCV[,5:8]) #0
