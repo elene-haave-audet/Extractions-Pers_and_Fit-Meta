@@ -141,3 +141,42 @@ round(apply(c7,2, quantile, c(0.025, 0.975)),2)
 c8 <- posterior.cor(m4$VCV[,5:8])
 round(apply(c8,2,mean),2)
 round(apply(c8,2, quantile, c(0.025, 0.975)),2)
+
+# phenotypic estimates====
+m1<-glmer(survival~bs.sess + (1|indiv), family="binomial", data=maleBS)
+summary(m1)
+rpt(bs.sess~(1|indiv), grname = "indiv", data=maleBS, datatype = c("Poisson"))
+#r=0.09
+r.squaredGLMM(m1)
+plot(maleBS$survival~maleBS$bs.sess)
+abline(glm(maleBS$survival~maleBS$bs.sess))
+
+m2<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=maleBS)
+summary(m2)
+rpt(bs.freq~(1|indiv), grname = "indiv", data=maleBS, datatype = c("Poisson"))
+#r=0.021
+r.squaredGLMM(m2)
+
+m3<-glmer(survival~mg.sess + (1|indiv), family="binomial", data=maleMG)
+summary(m3)
+rpt(mg.sess~(1|indiv), grname = "indiv", data=maleMG, datatype = c("Poisson"))
+#r=0.154
+r.squaredGLMM(m3)
+
+m4<-glmer(survival~mg.freq + (1|indiv), family="binomial", data=maleMG)
+summary(m4)
+rpt(mg.freq~(1|indiv), grname = "indiv", data=maleMG, datatype = c("Poisson"))
+#r=0.297
+r.squaredGLMM(m4)
+
+m5<-glmer(survival~bs.sess + (1|indiv), family="binomial", data=femaleBS)
+summary(m5)
+rpt(bs.sess~(1|indiv), grname = "indiv", data=femaleBS, datatype = c("Poisson"))
+#r=0.179
+r.squaredGLMM(m5)
+
+m6<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=femaleBS)
+summary(m6)
+rpt(bs.freq~(1|indiv), grname = "indiv", data=femaleBS, datatype = c("Poisson"))
+#r=0.049
+r.squaredGLMM(m6)
