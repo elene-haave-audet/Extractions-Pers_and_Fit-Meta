@@ -8,10 +8,6 @@ library(MCMCglmm)
 library(rptR)
 library(here)
 
-#function to convert Zr to r        
-Zr.to.r<-function(Zr){
-  r<-(exp(2*Zr)-1)/(exp(2*Zr)+1)}
-
 # Set wd====
 dir<-here()
 
@@ -63,120 +59,54 @@ maleBS=left_join(male_survival, MarshMBS, by="indiv")
 maleMG=left_join(male_survival, MarshMMG, by="indiv")
 femaleBS=left_join(female_survival, MarshFBS, by="indiv")
 
+# Extract estimates====
+# Male babysitting freq####
+
 hist(maleBS$bs.freq) #poisson
-maleBS$bs.freq_t<-log(maleBS$bs.freq)
-hist(maleBS$bs.freq_t) #still poisson
-maleBS$bs.freq_t2<-sqrt(maleBS$bs.freq)
-hist(maleBS$bs.freq_t2) #still poisson
-maleBS$bs.freq_t3<-sqrt(maleBS$bs.freq+0.5)
-hist(maleBS$bs.freq_t3) #still poisson
-maleBS$bs.freq_t4<-1/(maleBS$bs.freq)
-hist(maleBS$bs.freq_t4) #reverse poisson
-maleBS$bs.freq_t5<-(maleBS$bs.freq)^1/3
-hist(maleBS$bs.freq_t5) #still poisson...
-maleBS$bs.freq_t6<-sqrt(maleBS$bs.freq+3/8)
-hist(maleBS$bs.freq_t6)
-  
-hist(maleBS$bs.sess) #right skewed, but pretty normal
-hist(maleMG$mg.freq) #poisson
-hist(maleMG$mg.sess)#poisson
 
-hist(femaleBS$bs.freq) #poisson
+#phenotypic
+m1<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=maleBS)
+plot(resid(m1))
+summary(m1)
+rpt(bs.freq~(1|indiv), grname = "indiv", data=maleBS, datatype = c("Poisson"))
+#r=0.021
 
-femaleBS$bs.freq_t<-sqrt(femaleBS$bs.freq+0.5)
-hist(femaleBS$bs.freq_t)
-
-hist(femaleBS$bs.sess) #almost normal
-
-# partition variance for male babysitting sessions
-m1<-MCMCglmm(cbind(bs.sess, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("gaussian", "categorical"), data=maleBS, prior = prior4, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
-plot(m1)
-#plot(resid(m1))
-#Moiron Zr estimate= -0.187 (bolded to indicate it was flipped)
-
-###posterior correlation matrix - 1 through 4 is among individual, 5-8 is within-individual
-c1 <- posterior.cor(m1$VCV[,1:4]) #-0.33
-round(apply(c1,2,mean),2)
-round(apply(c1,2, quantile, c(0.025, 0.975)),2)
-c2 <- posterior.cor(m1$VCV[,5:8]) #0
-round(apply(c2,2,mean),2)
-round(apply(c2,2, quantile, c(0.025, 0.975)),2)
-
-MaleBS.sess.Zr<-Zr.to.r(-0.33) #-0.318
-
-#male babysitting frequency
-m2<-MCMCglmm(cbind(bs.freq, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("gaussian", "categorical"), data=maleBS, prior = prior4, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
+#among
+m2<-MCMCglmm(cbind(bs.freq, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("poisson", "categorical"), data=maleBS, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m2)
-# Zr estimate from Moiron 0.204 (bolded to indicate sign was flipped)
 
-c3 <- posterior.cor(m2$VCV[,1:4]) #-0.32
+c3 <- posterior.cor(m2$VCV[,1:4])
 round(apply(c3,2,mean),2)
 round(apply(c3,2, quantile, c(0.025, 0.975)),2)
 c4 <- posterior.cor(m2$VCV[,5:8])
 round(apply(c4,2,mean),2)
 round(apply(c4,2, quantile, c(0.025, 0.975)),2)
 
-MaleBS.freq.Zr<-Zr.to.r(-0.32) #-0.3095
+# Female babysiting freq####
+hist(femaleBS$bs.freq) #poisson
 
-#female babysitting session
-m3<-MCMCglmm(cbind(bs.sess, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("gaussian", "categorical"), data=femaleBS, prior = prior4, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
-plot(m3)
-# Zr estimate from Moiron -0.365 (bolded to indicate sign was flipped)
+# Phenotypic
+m3<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=femaleBS)
+summary(m3)
+rpt(bs.freq~(1|indiv), grname = "indiv", data=femaleBS, datatype = c("Poisson"))
+#r=0.049
 
-c5 <- posterior.cor(m3$VCV[,1:4]) #0.33
-round(apply(c5,2,mean),2)
-round(apply(c5,2, quantile, c(0.025, 0.975)),2)
-c6 <- posterior.cor(m3$VCV[,5:8])
-round(apply(c6,2,mean),2)
-round(apply(c6,2, quantile, c(0.025, 0.975)),2)
-
-#female babysiting frequency
-m4<-MCMCglmm(cbind(bs.freq_t, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("gaussian", "categorical"), data=femaleBS, prior = prior4, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
+m4<-MCMCglmm(cbind(bs.freq, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("poisson", "categorical"), data=femaleBS, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m4)
-# Zr estimate from Moiron -0.031 (bolded to indicate sign flipped)
 
-c7 <- posterior.cor(m4$VCV[,1:4]) #0.4 (without transfomration) # 0.36 with transformation
+c7 <- posterior.cor(m4$VCV[,1:4]) 
 round(apply(c7,2,mean),2)
 round(apply(c7,2, quantile, c(0.025, 0.975)),2)
 c8 <- posterior.cor(m4$VCV[,5:8])
 round(apply(c8,2,mean),2)
 round(apply(c8,2, quantile, c(0.025, 0.975)),2)
 
-# phenotypic estimates====
-m1<-glmer(survival~bs.sess + (1|indiv), family="binomial", data=maleBS)
-summary(m1)
-rpt(bs.sess~(1|indiv), grname = "indiv", data=maleBS, datatype = c("Poisson"))
-#r=0.09
-r.squaredGLMM(m1)
-plot(maleBS$survival~maleBS$bs.sess)
-abline(glm(maleBS$survival~maleBS$bs.sess))
+# Male mate-guarding freq####
 
-m2<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=maleBS)
-summary(m2)
-rpt(bs.freq~(1|indiv), grname = "indiv", data=maleBS, datatype = c("Poisson"))
-#r=0.021
-r.squaredGLMM(m2)
+hist(maleMG$mg.freq) #poisson
 
-m3<-glmer(survival~mg.sess + (1|indiv), family="binomial", data=maleMG)
-summary(m3)
-rpt(mg.sess~(1|indiv), grname = "indiv", data=maleMG, datatype = c("Poisson"))
-#r=0.154
-r.squaredGLMM(m3)
-
-m4<-glmer(survival~mg.freq + (1|indiv), family="binomial", data=maleMG)
-summary(m4)
+# Phenotypic
+m5<-glmer(survival~mg.freq + (1|indiv), family="binomial", data=maleMG)
+summary(m5)
 rpt(mg.freq~(1|indiv), grname = "indiv", data=maleMG, datatype = c("Poisson"))
 #r=0.297
-r.squaredGLMM(m4)
-
-m5<-glmer(survival~bs.sess + (1|indiv), family="binomial", data=femaleBS)
-summary(m5)
-rpt(bs.sess~(1|indiv), grname = "indiv", data=femaleBS, datatype = c("Poisson"))
-#r=0.179
-r.squaredGLMM(m5)
-
-m6<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=femaleBS)
-summary(m6)
-rpt(bs.freq~(1|indiv), grname = "indiv", data=femaleBS, datatype = c("Poisson"))
-#r=0.049
-r.squaredGLMM(m6)
