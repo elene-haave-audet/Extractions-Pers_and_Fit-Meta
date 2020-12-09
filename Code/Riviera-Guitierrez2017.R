@@ -17,6 +17,8 @@ linearMod <- lm(clutchsize ~ exploration, data=riviera)  # build linear regressi
 print(linearMod)
 summary(linearMod)
 r.squaredGLMM(linearMod)
+cor(riviera$exploration, riviera$clutchsize, method="spearman")
+#0.08438898
 
 #Call:
 #  lm(formula = clutchsize ~ exploration, data = riviera)
