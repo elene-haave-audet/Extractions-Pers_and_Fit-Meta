@@ -18,6 +18,7 @@ print(linearMod)
 summary(linearMod)
 
 cor(penteriani$duration_vocalisation, penteriani$nb_fledged_young, method="spearman")
+#0.4521959
 
 #Call:
 #lm(formula = duration_vocalisation ~ nb_fledged_young, data = penteriani)
