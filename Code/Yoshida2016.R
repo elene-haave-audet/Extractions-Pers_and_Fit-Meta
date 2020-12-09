@@ -21,6 +21,7 @@ summary(linearMod)
 r.squaredGLMM(linearMod)
 
 cor(yoshida1$Boldness,yoshida1$Longevity, method="spearman")
+#-0.07584962
 
 # Figure 6====
 yoshida2<-read.csv("Data/yoshida 2016 fig 6.csv")
@@ -34,3 +35,4 @@ summary(linearMod)
 r.squaredGLMM(linearMod)
 
 cor(yoshida2$Group_joining,yoshida2$Longevity, method="spearman")
+#0.4698961
