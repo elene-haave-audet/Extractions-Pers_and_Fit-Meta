@@ -6,6 +6,9 @@ library(here)
 library(lme4)
 library(tidyverse)
 
+# Set wd====
+dir<-here()
+
 # Load data====
 survival<-read.csv("Data/BoultonSurvival.csv")
 dominance<-read.csv("Data/BoultonDominance.csv")

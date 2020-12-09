@@ -16,8 +16,11 @@ data.f<-subset(data, sex==2)
 data.m<-subset(data, sex==1)
 
 #female- exploration (time spent in NE)
+female.exp<-data.f %>% 
+  filter(!is.na(time_novel))
+
 hist(data.f$time_novel)
-m1<-glmer(survival_2017~scale(time_novel)+(1|id), data=data.f, family="binomial")
+m1<-glmer(survival_2017~scale(time_novel)+(1|id), data=female.exp, family="binomial")
 r.squaredGLMM(m1) #fails to converge, but did not receive that warning when I ran the model
 summary(m1)
 rpt(time_novel~(1|id), grname = "id", data=data.f) #r=0.465
@@ -41,26 +44,38 @@ r.squaredGLMM(m4) #same as above
 summary(m4)
 rpt(breath_rate~(1|id), grname = "id", data=data.f) #r=0.168
 
+#males
+data.m<-filter(data.m, !is.na(survival_2017))
+
 #male- exploration (time in NE)
-m5<-glmer(survival_2017~time_novel+(1|id), data=data.m, family="binomial")
+male.explore<-data.m %>% 
+  filter(!is.na(time_novel))
+
+m5<-glmer(survival_2017~time_novel+(1|id), data=male.explore, family="binomial")
 r.squaredGLMM(m5) #converged
 summary(m5)
 rpt(time_novel~(1|id), grname = "id", data=data.m) #r=0.558
 
-#male- escape speed
+#male- escape speed: PERFORMANCE TRAIT- REMOVED FROM TABLE
 m6<-glmer(survival_2017~speed+(1|id), data=data.m, family="binomial")
 r.squaredGLMM(m6)
 summary(m6)
 rpt(speed~(1|id), grname = "id", data = data.m) #r=0.457
 
 #male- breath rate
-m7<-glmer(survival_2017~breath_rate+(1|id), data=data.m, family="binomial")
+male.breath<-data.m %>% 
+  filter(!is.na(breath_rate))
+
+m7<-glmer(survival_2017~breath_rate+(1|id), data=male.breath, family="binomial")
 r.squaredGLMM(m7)
 summary(m7)
 rpt(breath_rate~(1|id), grname = "id", data=data.m) #r=0.453
 
 #male- exploratiom (entered NE yes/no)
-m8<-glmer(survival_2017~crossornot+(1|id), data=data.m, family="binomial")
+male.cross<-data.m %>% 
+  filter(!is.na(crossornot))
+
+m8<-glmer(survival_2017~crossornot+(1|id), data=male.cross, family="binomial")
 r.squaredGLMM(m8)
 summary(m8)
 rpt(crossornot~(1|id), grname = "id", data=data.m, datatype = c("Binary")) #r=
