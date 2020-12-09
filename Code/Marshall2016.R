@@ -105,8 +105,21 @@ round(apply(c8,2, quantile, c(0.025, 0.975)),2)
 
 hist(maleMG$mg.freq) #poisson
 
+maleMG<-filter(maleMG, !is.na(mg.freq))
+
 # Phenotypic
 m5<-glmer(survival~mg.freq + (1|indiv), family="binomial", data=maleMG)
 summary(m5)
 rpt(mg.freq~(1|indiv), grname = "indiv", data=maleMG, datatype = c("Poisson"))
 #r=0.297
+
+# Among
+m6<-MCMCglmm(cbind(mg.freq, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("poisson", "categorical"), data=maleMG, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
+plot(m6)
+
+c9 <- posterior.cor(m6$VCV[,1:4]) 
+round(apply(c9,2,mean),2)
+round(apply(c9,2, quantile, c(0.025, 0.975)),2)
+c10 <- posterior.cor(m6$VCV[,5:8])
+round(apply(c10,2,mean),2)
+round(apply(c10,2, quantile, c(0.025, 0.975)),2)
