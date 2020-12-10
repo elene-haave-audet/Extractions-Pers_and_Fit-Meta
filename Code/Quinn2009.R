@@ -8,6 +8,7 @@ library(lme4)
 library(rptR)
 library(MuMIn)
 library(tidyverse)
+library(lmerTest)
 
 # Set wd====
 dir<-here()
@@ -34,6 +35,7 @@ rpt(hopsandflights~(1|BirdID), grname = "BirdID", data=female.eb)
 m.pheno.repro.f<-lmer(Clutch.size~scale(hopsandflights)+(1|BirdID), data=female.eb)
 summary(m.pheno.repro.f) #neg sign
 r.squaredGLMM(m.pheno.repro.f) #R2=0.00126
+anova(m.pheno.repro.f)
 
 m2.pheno.repro.f<-MCMCglmm(cbind(hopsandflights, Clutch.size) ~ (trait-1), random = ~us(trait):BirdID ,rcov = ~us(trait):units, family = c("gaussian", "gaussian"), data=female.eb, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m2.pheno.repro.f) #beautiful!
@@ -49,6 +51,7 @@ round(apply(c2,2, quantile, c(0.025, 0.975)),2)
 m.pheno.surv.f<-glmer(longevity_max.age.recorded~scale(hopsandflights)+(1|BirdID), family="poisson", data=female.eb)
 summary(m.pheno.surv.f) #pos sign
 r.squaredGLMM(m.pheno.surv.f) #R2=0.0000047
+
 
 # Males====
 male.data<-subset(breeding.data, select=-c(Mother))
@@ -67,6 +70,7 @@ rpt(hopsandflights~(1|BirdID), grname = "BirdID", data=male.eb)
 m.pheno.repro.m<-lmer(Clutch.size~scale(hopsandflights)+(1|BirdID), data=male.eb)
 summary(m.pheno.repro.m) #neg sign
 r.squaredGLMM(m.pheno.repro.m) #R2=0.00019709
+anova(m.pheno.repro.m)
 
 m2.pheno.repro.m<-MCMCglmm(cbind(hopsandflights, Clutch.size) ~ (trait-1), random = ~us(trait):BirdID ,rcov = ~us(trait):units, family = c("gaussian", "gaussian"), data=male.eb, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m2.pheno.repro.m) #beautiful!
