@@ -6,6 +6,7 @@ library(here)
 library(lme4)
 library(rptR)
 library(MuMIn)
+library(lmerTest)
 
 # Set wd====
 dir<-here()
@@ -21,6 +22,7 @@ m1<-lmer(age~Exploration_Score+(1|Bird_ID), data=data.f)
 summary(m1)
 r.squaredGLMM(m1)
 rpt(Exploration_Score~(1|Bird_ID), grname = "Bird_ID", data = data.f)
+anova(m1)
 
 m2<-lmer(age~Exploration_Score+(1|Bird_ID), data=data.m)
 summary(m2)
