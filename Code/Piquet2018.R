@@ -25,7 +25,7 @@ r.squaredGLMM(m1) #fails to converge, but did not receive that warning when I ra
 summary(m1)
 rpt(time_novel~(1|id), grname = "id", data=data.f) #r=0.465
 
-#female- escape speed (antipredator behaviour)
+#female- escape speed (antipredator behaviour) #REMOVED FROM EXTRACTIONS B/C IT'S A PERFORMANCE TRAIT
 hist(data.f$speed)
 m2<-glmer(survival_2017~speed+(1|id), data=data.f, family="binomial")
 r.squaredGLMM(m2) #model failed to converge, but ran fine above
