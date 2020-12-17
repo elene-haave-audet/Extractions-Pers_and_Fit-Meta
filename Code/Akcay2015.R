@@ -4,6 +4,8 @@
 # Load libraries====
 library(here)
 library(lme4)
+library(rptR)
+library(MuMIn)
 
 # Set wd====
 dir<-here()
@@ -43,12 +45,14 @@ plot(m1)
 summary(m1)
 rpt(Lsrate~(1|Bird), grname = "Bird", data=Ak15)
 #r=0.262
+r.squaredGLMM(m1)
 
 m2<-glmer(survivedTo2014~ scale(Wwrate_tt) + (1|Bird), family=binomial, data=Ak15)
 plot(m2)
 summary(m2)
 rpt(Wwrate~(1|Bird), grname = "Bird", data=Ak15)
 #r=0.508
+r.squaredGLMM(m2)
 
 m3<-glmer(survivedTo2014~ scale(Ssrate_tt) + (1|Bird), family=binomial, data=Ak15)
 plot(m3)
@@ -61,15 +65,18 @@ plot(m4)
 summary(m4)
 rpt(Flight~(1|Bird), grname = "Bird", data=Ak15)
 #r=0.426
+r.squaredGLMM(m4)
 
 m5<-glmer(survivedTo2014~ scale(TimeW5_t) + (1|Bird), family=binomial, data=Ak15)
 plot(m5)
 summary(m5)
 rpt(TimeW5~(1|Bird), grname = "Bird", data=Ak15)
 #r=0.405
+r.squaredGLMM(m5)
 
 m6<-glmer(survivedTo2014~ scale(Closest_t) + (1|Bird), family=binomial, data=Ak15)
 plot(m6)
 summary(m6) #reverse sign to such that near distance reflects higher aggression
 rpt(Closest~(1|Bird), grname = "Bird", data=Ak15)
 #r=0.278
+r.squaredGLMM(m6)
