@@ -65,11 +65,15 @@ femaleBS=left_join(female_survival, MarshFBS, by="indiv")
 hist(maleBS$bs.freq) #poisson
 
 #phenotypic
-m1<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=maleBS)
+#remove NAs
+maleBS_clean<-filter(maleBS, !is.na(bs.freq))
+
+m1<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=maleBS_clean)
 plot(resid(m1))
 summary(m1)
 rpt(bs.freq~(1|indiv), grname = "indiv", data=maleBS, datatype = c("Poisson"))
 #r=0.021
+r.squaredGLMM(m1)
 
 #among
 m2<-MCMCglmm(cbind(bs.freq, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("poisson", "categorical"), data=maleBS, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
@@ -86,10 +90,13 @@ round(apply(c4,2, quantile, c(0.025, 0.975)),2)
 hist(femaleBS$bs.freq) #poisson
 
 # Phenotypic
-m3<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=femaleBS)
+# remove NAs
+femalebs_clean<-filter(femaleBS, !is.na(bs.freq))
+m3<-glmer(survival~bs.freq + (1|indiv), family="binomial", data=femalebs_clean)
 summary(m3)
 rpt(bs.freq~(1|indiv), grname = "indiv", data=femaleBS, datatype = c("Poisson"))
 #r=0.049
+r.squaredGLMM(m3)
 
 m4<-MCMCglmm(cbind(bs.freq, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("poisson", "categorical"), data=femaleBS, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m4)
@@ -112,6 +119,7 @@ m5<-glmer(survival~mg.freq + (1|indiv), family="binomial", data=maleMG)
 summary(m5)
 rpt(mg.freq~(1|indiv), grname = "indiv", data=maleMG, datatype = c("Poisson"))
 #r=0.297
+r.squaredGLMM(m5)
 
 # Among
 m6<-MCMCglmm(cbind(mg.freq, survival) ~ (trait-1), random = ~us(trait):indiv ,rcov = ~us(trait):units, family = c("poisson", "categorical"), data=maleMG, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
