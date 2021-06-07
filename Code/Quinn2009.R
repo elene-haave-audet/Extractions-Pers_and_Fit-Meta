@@ -25,6 +25,9 @@ female.data<-filter(female.data, !is.na(BirdID))
 female.eb<-left_join(eb.data, female.data, by="BirdID")
 female.eb<-filter(female.eb,!is.na(Clutch.size))  
 
+# Prior====
+prior.miw<-list(R=list(V=diag(2), nu=2.002), G=list(G1=list(V=diag(2), nu=2.002, alpha.mu=c(0,0), alpha.V=diag(2)*1000)))
+
 # Females====
 hist(female.eb$Clutch.size) #beautifully normal!
 hist(female.eb$hopsandflights) #zero inflated poisson
