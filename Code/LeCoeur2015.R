@@ -17,6 +17,12 @@ hist(data$trappy) #Poisson dist
 hist(data$ars) #Poisson dist
 
 # Models====
+
+#use when both response and predictor are binomial
+Prior2 <- list(R = list(V=diag(2),nu=3),
+               G=list(G1 =list(V = diag(2), nu=3, alpha.V = diag(2)*1000)))
+
+
 m1<-MCMCglmm(cbind(trappy, ars) ~ (trait-1), random = ~us(trait):ID ,rcov = ~us(trait):units, family = c("poisson", "poisson"), data=data, prior = Prior2, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m1) #again, priors look better!
 
