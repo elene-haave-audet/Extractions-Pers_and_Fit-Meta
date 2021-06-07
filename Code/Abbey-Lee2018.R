@@ -23,6 +23,10 @@ m1
 
 hist(data$Exploration) #can assume normality
 
+# prior
+#use when behaviour is binomial and survival is gaussian
+Prior3 <- list(R=list(V=diag(2),nu=3, fix = 2),G=list(G1 =list(V = diag(2), nu=3, alpha.mu = c(0,0), alpha.V = diag(c(1000, 25^2)))))
+
 m3<-MCMCglmm(cbind(Exploration, EPY) ~ (trait-1), random = ~us(trait):MaleID ,rcov = ~us(trait):units, family = c("gaussian", "categorical"), data=data, prior =Prior3, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m3) #Maria's prior seems to work okay for this model
 
