@@ -9,6 +9,13 @@ library(rptR)
 
 # Load priors====
 
+prior.miw<-list(R=list(V=diag(2), nu=2.002), G=list(G1=list(V=diag(2), nu=2.002, alpha.mu=c(0,0), alpha.V=diag(2)*1000)))
+
+#use when behaviour is gaussian and survival is binomial
+prior4 <- list(R = list(V=diag(2), nu=3,fix=2),
+               G=list(G1 =list(V = diag(2), nu=3, alpha.mu = c(0,0), alpha.V=diag(c(25^2,1000)))))
+
+
 # Survival data====
 San2018Surv<-read.csv("Data/Santicchia2018_Survival.csv")
 table(San2018Surv$Sex) #63 F, 78 M
