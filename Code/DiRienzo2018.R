@@ -34,6 +34,8 @@ plot<-ggplot(data.m, aes(x=decon_t, y=success))+
 plot
 
 # Amg-ind====
+prior.miw<-list(R=list(V=diag(2), nu=2.002), G=list(G1=list(V=diag(2), nu=2.002, alpha.mu=c(0,0), alpha.V=diag(2)*1000)))
+
 m1<-MCMCglmm(cbind(decon_t, success) ~ (trait-1), random = ~us(trait):male_ID ,rcov = ~us(trait):units, family = c("gaussian", "categorical"), data=data.m, prior = prior.miw, verbose = FALSE,nitt=103000,thin=100,burnin=3000)
 plot(m1)
 
