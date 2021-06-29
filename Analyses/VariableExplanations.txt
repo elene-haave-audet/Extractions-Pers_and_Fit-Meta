@@ -1,0 +1,80 @@
+# Detailed variable information for HaaveAudet_meta_extractions_20210617.csv
+
+Accompanying data for Differences in resource acquisition, not allocation, mediate the relationship between behaviour and fitness: A systematic review and meta-analysis
+E. Haave-Audet, A. A. Besson, S. Nakagawa, K. J. Mathot
+
+Each line represents an estimate included in the meta-regression
+
+RecordNo- unique study ID
+Author- first author of the study
+Year- year the study was published
+LatinName- latin name of the study organism
+CommonName- English common name of the study organism
+Class- taxonomic class of the study organism
+StudyPop- country in which the study was conducted
+GroupID_global- Unique ID associated with the group of organisms for which the statistic is extracted when model has fitness component as moderator. Several unique groups may be associated with the same study.
+GroupID_fitness_component- Unique id associated with the group of organisms for which the statistic is extracted when different fitness components or treatments are modelled separately. Several unique groups may be associated with the same study.
+Origin- w = wild-caught animals tested in captivity
+	f = free-living animals, tested in wild
+	l = lab or captive-reared animals, tested in captivity
+	d = domesticated animals, tested in captivity
+Sex- 	m = males
+	f = females
+	b = both sexes combined
+	u = unknown (sex not specified)
+Age- 	a= adult
+	j=juvenile
+	b= both
+	u=unknown (age not specified)
+FitnessProxy- 	repro= fitness metric measured is a form of reproductive output
+		survival= fitness metric is the survival (yes/no) or probability of survival of individuals
+FitnessDetails- Detailed description of how fitness was quantified in the study
+FitnessMeasured- 	nat= outside of lab or zoo conditions, no manipulation of food or predation
+			art= ex situ observation of fitness, i.e. in a lab, zoo, predator exclosure
+Behaviour- behaviour type, as defines in Table S4
+BehavCoding- 	categorical= behaviour displayed by organisms is fitted into categories
+		continuous= behaviour is quantified in a continuously
+
+BehavDetails- Detailed description of how the behaviour was observed and quantified
+LevelBehav- 	phenotypic= unpartitioned phenotypic correlation
+		among= phenotypic among-individual, from studies that first extracted BLUPs, used individual averages, or among-individual covariance from a multivariate mixed effects model, or genetic among-individual
+		within= phenotypic within-individual centered or the within-individual covariance from a multivariate mixed effects model
+LevelFit- 	phenotypic= unpartitioned phenotypic correlation
+		among= phenotypic among-individual, from studies that first extracted BLUPs, used individual averages, an among-individual covariance from a multivariate mixed effects model, or genetic among-individual
+		within= phenotypic within-individual centered or the within-individual covariance from a multivariate mixed effects model
+Level_GroupID- Unique number within a study to indicate paired estimates when a partitioned and unpartitioned estimate are available for the same fitness-behaviour estimate. 0 indicates that the estimate is not paired with another.
+NInd- The number of individuals observed for computing the provided effect
+NObs- The number of total observations included for computing the provided effect
+Analysis- type of analysis conducted in the study to quantify the effect of indiviudal behaviour on fitness
+df- Denominator degrees of freedom
+dfeff- Calculated using effective sample size – 2 (intercept + 1 fixed effect in model)
+r-direct- 	0=did not provide correlation coefficient, estimated from provided statistics
+		1=provided correlation coefficient, or provided dataset for direct estimation
+r-method- 	ChiSquare= EScalculator- ChiSquare tab
+		F test k=2 = EScalculator- OneWayANOVA with 2Groups tab
+		Eq. 1 = sqrt(t2/(t2+DF))
+		Eq. 2 = sqrt(F/(F+DF))
+		Eq. 3 = sqrt (t2/(t2DFeff)
+		Eq. 10= d= LogOdds*(sqrt(3)/pi), then d to r
+		Moiron= estimates extracted from table S1 of Moiron et al 2019
+		2x2 contigency= Online ESCalculator 2x2contigency tab
+		d to r= EScalculator Cohen's D to Pearson R tab
+		marginal R2= sqrt(R2)
+		mean SD= Online EScalculator: mean + standard deviation tab
+		OR= Psychometrica online calculator: odds ratio to r
+		r squared= sqrt(R2)
+		sqrt(eta^2)= sqrt(eta^2)
+		T Test= EScalculator T test tab
+		T Test p value= ES calculator t test tab, p-value option
+sign- 	pos= positive relationship between behaviour and fitness (coded as indicated in table S4)
+	neg= negative relationship between behaviour and fitness (coded as indicated in table S4)
+SignReversed- 	+1= sign of relationship between behaviour and fitness kept the same as in article
+		-1= sign of relationship between behaviour and fitness multiplied by -1 to inverse the relationship
+r- calculated correlation coefficient used in meta-analysis
+Source- location in article were information to calculate estimate was extracted
+SuppMat/Data- 	0= no supplementary material/data provided with publication or directly by authors
+		1= supplementary material/data provided with publication or directly by authors
+Checked- 	0= extraction not checked by KJM
+		1= extraction checked by KJM
+Condition- specific testing condition experienced by the testing organisms that differentiate the estimate from author estimates in extracted from the study
+  
