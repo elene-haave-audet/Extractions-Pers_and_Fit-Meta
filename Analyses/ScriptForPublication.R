@@ -3,9 +3,11 @@
 # Haave-Audet, E., Besson, A.A., Nakagawa, S., & Mathot, K.J.
 
 # Libraries----
+#install.packages("devtools")
+library(devtools)
 library(tidyverse)
 library(metafor) #meta-regression
-library(rotl) #for phylogeny 
+library(rotl) #for phylogeny # use version 3.0.10
 library(ape) # for phylogeny
 library(here) #to set working directory
 library(matrixcalc) #for variance-covariance matrix
@@ -14,13 +16,11 @@ library(ggpubr)
 library(patchwork)
 library(lmodel2)
 
-#install.packages("devtools")
-library(devtools)
-
-#install_github("daniel1noble/metaAidR") 
+#install_github("daniel1noble/metaAidR")
+  # run line 20 is metaAidR is not installed on computer
 library(metaAidR)
 
-# gettting orchaRd - this has handy functions getting I^2 and R^2
+# getting orchaRd - this has handy functions getting I^2 and R^2
 #install.packages("devtools")
 #install.packages("tidyverse")
 #install.packages("metafor")
@@ -32,7 +32,7 @@ library(metaAidR)
 library(orchaRd)
 
 # Working Directory----
-dir<-setwd(here())
+dir<-setwd(here::here())
 
 # Functions----
   
