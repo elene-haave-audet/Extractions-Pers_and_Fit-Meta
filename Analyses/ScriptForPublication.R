@@ -24,7 +24,7 @@ library(metaAidR)
 library(devtools)
 library(tidyverse)
 library(metafor) #meta-regression
-library(rotl) #for phylogeny # use version 3.0.10
+library(rotl) #for phylogeny
 library(ape) # for phylogeny
 library(here) #to set working directory
 library(matrixcalc) #for variance-covariance matrix
@@ -1244,7 +1244,7 @@ wthn.repro.behav<-ggplot(data=res_wr.b, aes(x=estimate, y=name))+
   geom_vline(xintercept = 0, linetype = 2, colour = "black", alpha = 0.3)+
   # creating dots and different size (bee-swarm and bubbles)
   geom_point(aes(fill = name), size = 3, shape = 21)+
-  scale_color_viridis(discrete = TRUE)+
+  scale_color_manual(values = my_colours)+
   annotate('text', x =3, y= 1:9, label= paste("italic(k)==", res_wr.b$n), parse = TRUE, hjust = "right", size = 3.5)+
   labs(x = "Zr", y = "") +
   guides(fill = "none", colour = "none") +
