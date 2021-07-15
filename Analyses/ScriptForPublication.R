@@ -2,8 +2,25 @@
 # Differences in resource acquisition, not allocation, mediate the relationship between behaviour and fitness: A systematic review and meta-analysis 
 # Haave-Audet, E., Besson, A.A., Nakagawa, S., & Mathot, K.J.
 
+# Download script and data files onto personal computer, keeping folder structure the same to run code
+
 # Libraries----
+
+# install the following packages to get orchaRd and metaAidR:
 #install.packages("devtools")
+#install.packages("tidyverse")
+#install.packages("metafor")
+#install.packages("patchwork")
+#install.packages("R.rsp")
+
+#devtools::install_github("itchyshin/orchard_plot", subdir = "orchaRd", force = TRUE, build_vignettes = TRUE)
+
+library(orchaRd)
+
+#install_github("daniel1noble/metaAidR")
+# run line 20 is metaAidR is not installed on computer
+library(metaAidR)
+
 library(devtools)
 library(tidyverse)
 library(metafor) #meta-regression
@@ -15,21 +32,6 @@ library(viridis) #ggplot color palatte
 library(ggpubr)
 library(patchwork)
 library(lmodel2)
-
-#install_github("daniel1noble/metaAidR")
-  # run line 20 is metaAidR is not installed on computer
-library(metaAidR)
-
-# getting orchaRd - this has handy functions getting I^2 and R^2
-#install.packages("devtools")
-#install.packages("tidyverse")
-#install.packages("metafor")
-#install.packages("patchwork")
-#install.packages("R.rsp")
-
-#devtools::install_github("itchyshin/orchard_plot", subdir = "orchaRd", force = TRUE, build_vignettes = TRUE)
-
-library(orchaRd)
 
 # Working Directory----
 dir<-setwd(here::here())
