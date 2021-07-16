@@ -15,23 +15,23 @@
 
 #devtools::install_github("itchyshin/orchard_plot", subdir = "orchaRd", force = TRUE, build_vignettes = TRUE)
 
-library(orchaRd)
+library(orchaRd) #v 0.0.09000
 
 #install_github("daniel1noble/metaAidR")
 # run line 20 is metaAidR is not installed on computer
-library(metaAidR)
+library(metaAidR) #v 0.0.0.9000
 
-library(devtools)
-library(tidyverse)
-library(metafor) #meta-regression
-library(rotl) #for phylogeny
-library(ape) # for phylogeny
-library(here) #to set working directory
-library(matrixcalc) #for variance-covariance matrix
-library(viridis) #ggplot color palatte
-library(ggpubr)
-library(patchwork)
-library(lmodel2)
+library(devtools) #v 2.3.0
+library(tidyverse) #v 1.2.1
+library(metafor) #meta-regression v 3.0-2
+library(rotl) #for phylogeny v. 3.0.11
+library(ape) # for phylogeny v. 5.5
+library(here) #to set working directory v 0.1
+library(matrixcalc) #for variance-covariance matrix v 1.0-4
+library(viridis) #ggplot color palatte v 0.5.1
+library(ggpubr) # v 0.2
+library(patchwork) # 1.0.1
+library(lmodel2) # v 1.7-3
 
 # Working Directory----
 dir<-setwd(here::here())
