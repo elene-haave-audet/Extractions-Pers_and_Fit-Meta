@@ -1340,7 +1340,7 @@ fit.plots
 # 4) Publication Bias----
   #* Funnel Plot====
 res_funnel_plot <- rma.mv(yi = Zr, V = VZr, mods = ~Behaviour + 
-                            BehavCondition + FitnessProxy+ LevelBehav, random = list(~1|CommonName,~1|RecordNo, ~1|obs) , data = data)
+                            FitnessMeasured + FitnessProxy+ LevelBehav, random = list(~1|CommonName,~1|RecordNo, ~1|obs) , data = data)
 
 funnel<-funnel(res_funnel_plot, yaxis = "seinv", level = c(90, 95, 99), 
                shade = c("white","gray55", "gray75"), refline = 0, legend = FALSE)
@@ -1375,7 +1375,7 @@ fit_egger_regression_uni <- data %>% mutate(ymin = pred_egger_regression_uni$ci.
 fit_egger_regression_uni
 
   #* Time Lag Effect====
-time_lag_effect_uni <- rma.mv(yi = Zr, V = VZr, mods = ~Year + Behaviour + FitnessProxy + LevelBehav, random = list(~1|CommonName,~1 | 
+time_lag_effect_uni <- rma.mv(yi = Zr, V = VZr, mods = ~Year + Behaviour+ LevelBehav+FitnessProxy, random = list(~1|CommonName,~1 | 
                                                                                                                       RecordNo, ~1|obs), data = data)
 summary(time_lag_effect_uni)
 
