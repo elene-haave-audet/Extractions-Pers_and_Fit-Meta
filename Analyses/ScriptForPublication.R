@@ -775,7 +775,7 @@ summary(wr.fit)
 r2_ml(wr.fit) #R2m=0.135
 i2_ml(ar.fit)
 
-  #* Figure 5 & 6====
+  #* Figure 6 & 7====
 
 # Phenotypic: survival
 # Behaviour
@@ -1323,14 +1323,14 @@ wthn.repro.full<-ggplot(data=res_wr.full, aes(x=estimate, y="Within-Reproduction
         plot.title = element_text(face="bold", size = 10, hjust = -0.1, vjust = -6))
 wthn.repro.full
 
-      #*** Figure 5####
+      #*** Figure 6####
 fig.behav<-(pheno.surv.full/pheno.surv.behav/amg.surv.full/amg.surv.behav/plot_spacer()+
               plot_layout(heights = c(1.6, 3.8, 1.6, 3.8, 5.4)))|
   (pheno.repro.full/ pheno.repro.behav/amg.repro.full/amg.repro.behav/wthn.repro.full/wthn.repro.behav + 
      plot_layout(heights=c(1.6, 3.8, 1.6, 3.8,1.6,3.8)))
 fig.behav
 
-      #*** Figure 6####
+      #*** Figure 7####
 fit.plots<-(pheno.surv.fit/amg.surv.fit/plot_spacer()+
               plot_layout(heights = c(5.4,5.4, 5.4)))|
   (pheno.repro.fit/amg.repro.fit/wthn.repro.fit + 
@@ -1404,7 +1404,7 @@ fit_time_lag_effect <- data %>% mutate(ymin = pred_time_lag_effect_uni$ci.lb,
 
 fit_time_lag_effect
 
-  #* Figure 7====
+  #* Figure 8====
 pub.bias<-ggarrange(fit_egger_regression_uni,fit_time_lag_effect)
 pub.bias
 
@@ -1481,7 +1481,7 @@ pw.cor<-ggplot(data = pw_wide, aes(Zr.pheno, Zr.wth, size= (1/VZr.pheno)+3))+
   theme(legend.position=c(1,0), legend.justification = c(1,0))+
   theme(legend.direction = "horizontal")
 pw.cor
-  #* Figure S1====
+  #* Figure 5====
 part.plots<-ggarrange(pa.cor, pw.cor,
                       labels="auto", label.x = 0.04, label.y = 1,
                       font.label = list(size = 12, face = "bold"))
