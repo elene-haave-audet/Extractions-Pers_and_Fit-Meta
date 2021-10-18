@@ -426,7 +426,7 @@ phylo.cor.ps<-vcv(tree.ps,cor=T)
 ps.full1<-rma.mv(yi = Zr, V = matrix.ps, random = list(~1|LatinName, ~1|CommonName, ~1|RecordNo,~1|obs),R = list(LatinName = phylo.cor.ps), data = pheno.s)
 summary(ps.full1)
 i2_ml(ps.full1)
-Zr_to_r(ps.full1$b) #0.04779
+Zr_to_r(ps.full1$b) #0.0578
 
     #** Behaviour####
 ps.behav<-rma.mv(yi = Zr, V = matrix.ps, mod= ~Behaviour -1, random = list(~1|LatinName, ~1|CommonName,~1|RecordNo,~1|obs),R = list(LatinName = phylo.cor.ps),data = pheno.s)
