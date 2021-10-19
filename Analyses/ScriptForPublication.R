@@ -1408,7 +1408,7 @@ fit_time_lag_effect
 pub.bias<-ggarrange(fit_egger_regression_uni,fit_time_lag_effect)
 pub.bias
 
-# 5) Partitioning (supplementary material)----
+# 5) Partitioning----
 
 ## "Level_GroupID" indicates whether estimate has a matching 
 ## partitioned/unpartitioned estimate
